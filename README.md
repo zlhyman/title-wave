@@ -21,10 +21,7 @@ TitleWave is an AI-powered slide title enhancer that helps you improve the title
 pip install -r requirements.txt
 ```
 
-3. Set up your OpenAI API key:
-```
-export OPENAI_API_KEY=your_api_key_here
-```
+3. Set up your OpenAI API key (see [API Key Security](#api-key-security) below)
 
 ## Usage
 
@@ -37,6 +34,33 @@ python main.py
 
 3. Review the original and rewritten titles
 4. Choose whether to apply the changes
+
+## API Key Security
+
+You'll need an OpenAI API key to use TitleWave. There are several secure ways to provide it:
+
+### Option 1: Environment variable (recommended)
+
+```bash
+export OPENAI_API_KEY=your_api_key_here
+```
+
+### Option 2: Using a .env file (for development)
+
+1. Copy the example environment file:
+   ```
+   cp .env.example .env
+   ```
+2. Edit the `.env` file and add your API key
+3. Note: The `.env` file is in `.gitignore` and should never be committed to version control
+
+### Security Best Practices
+
+- Never hardcode your API key directly in the source code
+- Never commit your actual API key to version control
+- Consider using a secrets management tool for production use
+- Regularly rotate your API keys
+- Use environment-specific API keys (development, staging, production)
 
 ## Files Structure
 

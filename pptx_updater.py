@@ -1,14 +1,24 @@
 from pptx import Presentation
 
-def update_pptx_titles(original_pptx_path, new_titles, output_pptx_path):
-    """Updates PowerPoint file with new titles."""
-    prs = Presentation(original_pptx_path)
-    title_index = 0
-    for slide in prs.slides:
+def update_pptx_titles(input_pptx_path, new_titles, output_pptx_path):
+    """Update slide titles in a PowerPoint presentation."""
+    prs = Presentation(input_pptx_path)
+    
+    # Ensure we have enough titles
+    if len(new_titles) < len(prs.slides):
+        # Pad with empty strings if needed
+        new_titles.extend([""] * (len(prs.slides) - len(new_titles)))
+    
+    for i, slide in enumerate(prs.slides):
+        if i >= len(new_titles):
+            break
+            
+        # Find the title shape
         for shape in slide.shapes:
-            if shape.has_text_frame and shape.text_frame.text:
-                text = shape.text_frame.text.strip()
-                if len(text) < 100 and title_index < len(new_titles):
-                    shape.text_frame.text = new_titles[title_index]
-                    title_index += 1
+            # Update the first shape with text (assuming it's the title)
+            if hasattr(shape, "text") and shape.text:
+                shape.text = new_titles[i]
+                break
+    
+    # Save the updated presentation
     prs.save(output_pptx_path) 

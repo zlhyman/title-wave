@@ -3,6 +3,16 @@ from title_extractor import extract_slide_titles
 from title_rewriter import rewrite_titles
 from pptx_updater import update_pptx_titles
 
+# Try to load environment variables from .env file if it exists
+try:
+    from dotenv import load_dotenv
+    if os.path.exists('.env'):
+        load_dotenv()
+        print("Loaded environment variables from .env file")
+except ImportError:
+    # dotenv module not installed, skipping
+    pass
+
 def main():
     print("Welcome to TitleWave - Your AI-Powered Slide Title Enhancer!\n")
     pptx_path = "example.pptx"  # Replace with actual path
