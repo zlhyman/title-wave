@@ -18,8 +18,12 @@ def rewrite_titles(titles):
         print("\nNote: Never commit your actual API key to version control!")
         sys.exit(1)
     
-    # Initialize the OpenAI client
-    client = OpenAI()
+    return rewrite_titles_with_key(titles, api_key)
+
+def rewrite_titles_with_key(titles, api_key):
+    """Uses OpenAI to generate rewritten slide titles with provided API key."""
+    # Initialize the OpenAI client with the provided key
+    client = OpenAI(api_key=api_key)
     
     rewritten_titles = []
     for title in titles:
@@ -31,10 +35,15 @@ def rewrite_titles(titles):
 
         Title: "{title}"
         """
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": "You are an expert at improving presentation slide titles."},
-                      {"role": "user", "content": prompt}]
-        )
-        rewritten_titles.append(response.choices[0].message.content.strip())
+        try:
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "system", "content": "You are an expert at improving presentation slide titles."},
+                          {"role": "user", "content": prompt}]
+            )
+            rewritten_titles.append(response.choices[0].message.content.strip())
+        except Exception as e:
+            # Handle API errors
+            rewritten_titles.append(f"Error: {str(e)}\n\n1. Concise & Clear: {title}\n2. Executive-Friendly: {title}\n3. Storytelling-Driven: {title}")
+    
     return rewritten_titles 
