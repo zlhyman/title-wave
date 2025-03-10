@@ -126,8 +126,8 @@ def get_active_api_key():
         return st.session_state.api_key
 
 # Custom title with wave emoji
-st.markdown('<div class="custom-title">🌊 TitleWave</div>', unsafe_allow_html=True)
-st.markdown('<div class="custom-subtitle">Upload your PowerPoint presentation to get AI-enhanced slide titles!</div>', unsafe_allow_html=True)
+st.markdown('<div class="custom-title">🌊TitleWave</div>', unsafe_allow_html=True)
+st.markdown('<div class="custom-subtitle">Upload your PowerPoint presentation to receive AI-enhanced slide titles 🪄 </div>', unsafe_allow_html=True)
 
 # ----- MOVED FILE UPLOADER HERE -----
 # Show the file uploader first
@@ -217,8 +217,12 @@ if show_uploader:
             st.session_state.titles_confirmed = False
         
         # Title editing and confirmation section
-        st.subheader("Review and Edit Slide Titles")
-        st.write("Please review the extracted titles and edit them if needed before generating AI-enhanced versions.")
+        st.markdown("### Check Slide Titles Below<br>看一看下面的幻灯片标题", unsafe_allow_html=True)
+        st.markdown("""
+        Please double-check on the extracted slide titles below, and edit them if needed before clicking 'Confirm Titles' to generate AI-enhanced versions.
+        <br><br>
+        请仔细检查下面提取的幻灯片标题，并在必要时对其进行编辑，然后单击\"Confirm Titles\"以生成 AI 增强版本。
+        """, unsafe_allow_html=True)
         
         edited_titles = []
         # Create text inputs for each title
@@ -233,7 +237,7 @@ if show_uploader:
             st.session_state.edited_titles = edited_titles
             st.session_state.titles_confirmed = True
             st.success("Titles confirmed! You can now generate AI-enhanced versions.")
-            st.experimental_rerun()  # Rerun to update the UI
+            st.rerun()  # Rerun to update the UI
         
         # Only show the Generate AI-Enhanced Titles button if titles are confirmed
         if st.session_state.titles_confirmed:
@@ -270,7 +274,7 @@ if show_uploader:
                     # Store in session state to persist across reruns
                     st.session_state.all_rewritten_options = all_rewritten_options
                     st.session_state.show_selection = True
-                    st.experimental_rerun()  # Rerun to update the UI with selection interface
+                    st.rerun()  # Rerun to update the UI with selection interface
             
             # Display title selection interface if available
             if 'show_selection' in st.session_state and st.session_state.show_selection and 'all_rewritten_options' in st.session_state:
