@@ -332,6 +332,22 @@ st.markdown("""
     [data-testid="stFileUploader"] {
         border-color: black !important;
     }
+
+    /* Make the dotted lines very light, almost invisible */
+    [data-testid="stFileUploadDropzoneContent"],
+    [data-testid="stFileUploadDropzoneContent"] * {
+        border-color: rgba(200, 200, 200, 0.3) !important;
+    }
+
+    /* Slightly lighten the outer border */
+    [data-testid="stFileUploader"] {
+        border-color: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Ensure text is readable */
+    [data-testid="stFileUploadDropzoneContent"] div {
+        color: #333 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
