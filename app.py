@@ -266,6 +266,35 @@ st.markdown("""
         background-color: rgba(255, 255, 255, 0.9) !important;
         border-style: dashed !important; /* Explicitly set dashed style */
     }
+
+    /* Nuclear approach to eliminate dotted lines */
+    [data-testid="stFileUploadDropzoneContent"],
+    [data-testid="stFileUploadDropzoneContent"] *,
+    [data-testid="stFileUploadDropzoneContent"] *::before,
+    [data-testid="stFileUploadDropzoneContent"] *::after {
+        border-style: solid !important;
+        stroke-dasharray: 0 !important;
+    }
+
+    /* Direct replacement with solid border */
+    [data-testid="stFileUploadDropzoneContent"] {
+        border: 2px solid #aaa !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    /* Target SVG elements that might be creating the dotted effect */
+    [data-testid="stFileUploadDropzoneContent"] svg,
+    [data-testid="stFileUploadDropzoneContent"] svg * {
+        stroke-dasharray: 0 !important;
+        stroke-dashoffset: 0 !important;
+        stroke-linecap: butt !important;
+        stroke-linejoin: miter !important;
+    }
+
+    /* Absolutely ensure no element is using a rect with stroke-dasharray */
+    rect {
+        stroke-dasharray: 0 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
