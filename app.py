@@ -559,6 +559,25 @@ st.markdown("""
     div[style*="background-color: #19191e"] p {
         color: white !important;
     }
+
+    /* Target only the specific slide title containers */
+    div[style*="background-color: #1e1e2e"],
+    div[style*="background-color: rgb(30, 30, 46)"],
+    div[style*="background-color: rgb(25, 26, 30)"] {
+        color: white !important;
+    }
+
+    /* Target direct children of those containers */
+    div[style*="background-color: #1e1e2e"] > *,
+    div[style*="background-color: rgb(30, 30, 46)"] > *,
+    div[style*="background-color: rgb(25, 26, 30)"] > * {
+        color: white !important;
+    }
+
+    /* Also target the specific slide title elements based on what I can see in screenshots */
+    .stMarkdown div[style*="background-color"] {
+        color: white !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
