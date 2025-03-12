@@ -258,6 +258,14 @@ st.markdown("""
     [data-testid="stFileUploadDropzoneContent"] {
         border: 1px solid black !important;
     }
+
+    /* Target ONLY the dropzone content with a dashed border - this is the exact selector that worked before */
+    div[data-testid="stFileUploadDropzoneContent"] {
+        border: 2px dashed #aaa !important;
+        border-radius: 5px !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        border-style: dashed !important; /* Explicitly set dashed style */
+    }
 </style>
 """, unsafe_allow_html=True)
 
