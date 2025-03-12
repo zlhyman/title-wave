@@ -387,6 +387,31 @@ st.markdown("""
         flex-direction: column !important;
         justify-content: center !important;
     }
+
+    /* Make dotted lines invisible */
+    [data-testid="stFileUploadDropzoneContent"] {
+        border-color: transparent !important;
+    }
+
+    /* Target SVG dashed strokes that might be creating the dotted appearance */
+    [data-testid="stFileUploadDropzoneContent"] svg path,
+    [data-testid="stFileUploadDropzoneContent"] svg rect,
+    [data-testid="stFileUploadDropzoneContent"] svg line {
+        stroke: transparent !important;
+        stroke-opacity: 0 !important;
+        opacity: 0 !important;
+    }
+
+    /* Ensure text and icon remain visible */
+    [data-testid="stFileUploadDropzoneContent"] div {
+        color: #333 !important;
+    }
+
+    [data-testid="stFileUploadDropzoneContent"] svg.css-1gpdmzr {
+        opacity: 1 !important;
+        stroke: initial !important;
+        fill: #455a7f !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
