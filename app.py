@@ -10,6 +10,9 @@ from title_rewriter import rewrite_titles_with_key, rewrite_titles_with_context
 from pptx_updater import update_pptx_titles
 import traceback
 
+# Add near the top of your app
+st.write("API Key first 5 chars:", ADMIN_API_KEY[:5] if ADMIN_API_KEY else "No key found")
+
 # Admin API key (your key) - in production, store this in environment variables
 ADMIN_API_KEY = st.secrets.get("OPENAI_API_KEY", "")
 FREE_TIER_LIMIT = 5  # Number of free decks per month per user
@@ -489,19 +492,15 @@ def increment_usage():
 
 # Function to get the appropriate API key
 def get_active_api_key():
+    key = ""
     if st.session_state.using_free_tier and free_tier_available:
         key = ADMIN_API_KEY
-        # Debug
-        with st.expander("Debug - Admin Key"):
-            st.write(f"Using admin key, length: {len(key) if key else 0}")
-            st.write(f"Prefix: {key[:4] + '...' if key and len(key) > 4 else 'None'}")
-        return key
     else:
         key = st.session_state.api_key
-        # Debug
-        with st.expander("Debug - User Key"):
-            st.write(f"Using user key, length: {len(key) if key else 0}")
-        return key
+    
+    # Add debug info
+    st.write(f"Using {'admin' if key == ADMIN_API_KEY else 'user'} key, length: {len(key)}")
+    return key
 
 # Debug section
 try:
