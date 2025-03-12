@@ -246,13 +246,12 @@ st.markdown("""
     /* Fix the inner container with solid light grey border */
     [data-testid="stFileUploadDropzoneContent"] {
         background-color: rgba(255, 255, 255, 0.7) !important;
-        border: 1px solid #dddddd !important;
-        border-style: solid !important;
+        border: 1px solid black !important;
     }
 
     /* Remove dotted lines specifically */
     [data-testid="stFileUploadDropzoneContent"] svg {
-        stroke: #444 !important;
+        stroke: black !important;
     }
 </style>
 """, unsafe_allow_html=True)
