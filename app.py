@@ -72,6 +72,24 @@ st.markdown("""
         padding-top: 10px !important;
         padding-bottom: 10px !important;
     }
+    
+    /* Accessibility-friendly section headers */
+    h1, h2, h3 {
+        color: #1A3E6C !important; /* Deep blue for accessibility */
+    }
+    
+    .stRadio label {
+        color: #2C3E50 !important; /* Dark slate for accessibility */
+    }
+    
+    /* Make the customize section header more accessible */
+    .customize-header {
+        color: #1A3E6C !important;
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -275,7 +293,7 @@ if show_uploader:
             st.subheader("Generate Enhanced Titles")
             
             # ADD CUSTOMIZATION UI HERE
-            st.markdown("### Customize Your Title Suggestions")
+            st.markdown('<h2 class="customize-header">Customize Your Title Suggestions</h2>', unsafe_allow_html=True)
             
             # Style selection
             style_option = st.radio(
@@ -326,18 +344,32 @@ if show_uploader:
             
             # Display title selection interface if available
             if 'show_selection' in st.session_state and st.session_state.show_selection and 'all_rewritten_options' in st.session_state:
-                st.subheader("Select New Titles")
+                st.markdown("""
+                <style>
+                .section-header {
+                    color: #1A3E6C !important; /* Deep blue for accessibility */
+                    font-weight: 600;
+                }
+                .slide-header {
+                    color: #2C3E50 !important; /* Dark slate for accessibility */
+                    font-weight: 600; 
+                }
+                </style>
+                """, unsafe_allow_html=True)
+                
+                st.markdown('<h2 class="section-header">Select New Titles</h2>', unsafe_allow_html=True)
                 selected_titles = []
                 
-                for i, suggested_title in enumerate(st.session_state.all_rewritten_options):
+                for i, options in enumerate(st.session_state.all_rewritten_options):
                     if i < len(titles_to_use):  # Safety check
-                        st.markdown(f"<div style='margin-bottom: 20px;'><b>Slide {i+1}</b><br><em>Original: {titles_to_use[i]}</em></div>", unsafe_allow_html=True)
+                        st.markdown(f'<div class="slide-header">Slide {i+1}</div>', unsafe_allow_html=True)
+                        st.markdown(f"<em>Original: {titles_to_use[i]}</em>", unsafe_allow_html=True)
                         
-                        # Create radio buttons for selection
-                        options = ["[Keep Original]", suggested_title]
+                        # Create radio buttons for selection with original + 2 options
+                        radio_options = ["[Keep Original]"] + options
                         selection = st.radio(
                             f"Choose title for slide {i+1}:",
-                            options,
+                            radio_options,
                             key=f"slide_{i}"
                         )
                         
@@ -346,6 +378,8 @@ if show_uploader:
                             selected_titles.append(titles_to_use[i])
                         else:
                             selected_titles.append(selection)
+                        
+                        st.markdown("<hr style='margin: 30px 0; opacity: 0.3;'>", unsafe_allow_html=True)
                 
                 # Button to create the updated presentation
                 if st.button("Create Updated Presentation"):
