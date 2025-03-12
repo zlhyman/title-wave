@@ -389,21 +389,22 @@ if 'temp_pptx_path' in locals():
 # Small, subtle test button for API debugging
 st.markdown("<hr style='margin-top: 50px; opacity: 0.3;'>", unsafe_allow_html=True)
 with st.expander("🔧 Developer Tools", expanded=False):
-    col1, col2, col3 = st.columns([1, 1, 3])
+    col1, col2 = st.columns([1, 3])
     with col1:
-        if st.button("Test API", help="Test OpenAI API connection", key="test_api_btn", use_container_width=False):
-            try:
-                from openai import OpenAI
-                client = OpenAI(api_key=st.secrets.get("OPENAI_API_KEY", ""))
-                response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[{"role": "user", "content": "Say hello"}],
-                    max_tokens=10
-                )
-                with col3:
-                    st.success(f"✓ API works! Response: {response.choices[0].message.content}")
-            except Exception as e:
-                with col3:
-                    st.error(f"API Error: {type(e).__name__}")
-                    with st.expander("Details"):
-                        st.code(str(e)) 
+        test_api = st.button("Test API", help="Test OpenAI API connection", key="test_api_btn")
+    
+    if test_api:
+        try:
+            from openai import OpenAI
+            client = OpenAI(api_key=st.secrets.get("OPENAI_API_KEY", ""))
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": "Say hello"}],
+                max_tokens=10
+            )
+            with col2:
+                st.success(f"✓ API works! Response: {response.choices[0].message.content}")
+        except Exception as e:
+            with col2:
+                st.error(f"API Error: {type(e).__name__}")
+                st.code(str(e))  # No nested expander, just show the error directly 
