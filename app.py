@@ -177,10 +177,10 @@ free_tier_available = current_usage < FREE_TIER_LIMIT
 # Display usage meter
 usage_html = f"""
 <div style="background-color: rgba(0, 0, 0, 0.1); padding: 15px; border-radius: 5px; margin-bottom: 0;">
-    <div style="color: #31708f; margin-bottom: 10px;">
+    <div style="color: #000000; margin-bottom: 10px;">
         Free tier usage: {current_usage}/{FREE_TIER_LIMIT} presentations this month
     </div>
-    <div style="height: 10px; background-color: #000000; border-radius: 5px; margin: 10px 0;">
+    <div style="height: 10px; background-color: #FFF; border-radius: 5px; margin: 10px 0;">
         <div style="height: 100%; width: {usage_percentage}%; background-color: #4CAF50; border-radius: 5px;"></div>
     </div>
 </div>
