@@ -578,6 +578,28 @@ st.markdown("""
     .stMarkdown div[style*="background-color"] {
         color: white !important;
     }
+
+    /* RESET - remove any global text color changes that might affect light backgrounds */
+    p, div, span {
+        color: initial;
+    }
+
+    /* TARGET ONLY the dark boxes with slide titles */
+    div[style*="background-color: #1e1e2e"] p,
+    div[style*="background-color: rgb(30, 30, 46)"] p,
+    div[style*="background-color: rgb(25, 26, 30)"] p,
+    [data-testid="stMarkdown"] div[style*="background-color: #1e1e2e"],
+    [data-testid="stMarkdown"] div[style*="background-color: rgb(30, 30, 46)"],
+    [data-testid="stMarkdown"] div[style*="background-color: rgb(25, 26, 30)"] {
+        color: white !important;
+    }
+
+    /* More specific selectors for the slide boxes */
+    .stMarkdown div[style*="background-color: rgb(30, 30, 46)"],
+    .stMarkdown div[style*="background-color: #1e1e2e"],
+    .stMarkdown div[style*="background-color: rgb(25, 26, 30)"] {
+        color: white !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
