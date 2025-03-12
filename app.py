@@ -412,6 +412,42 @@ st.markdown("""
         stroke: initial !important;
         fill: #455a7f !important;
     }
+
+    /* Ensure our height settings only apply to the browse button, not the X button */
+    [data-testid="stFileUploader"] > section > button {
+        height: 80px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Reset any height settings for progress indicators and close buttons */
+    [role="progressbar"],
+    button[aria-label="Close"] {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+    }
+
+    /* Make "Confirm Titles" button text white */
+    button:contains("Confirm Titles"),
+    .stButton button {
+        color: white !important;
+    }
+
+    /* Make text in the dark slide title boxes white instead of blue */
+    [data-testid="stText"] > div > p {
+        color: white !important;
+    }
+
+    /* Target specifically the slide title containers */
+    .element-container div[data-testid="stText"] > div {
+        color: white !important;
+    }
+
+    /* More specific targeting for the slide boxes */
+    div[data-baseweb="card"] > div > div > p,
+    div[data-baseweb="card"] span {
+        color: white !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
