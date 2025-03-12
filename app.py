@@ -22,6 +22,63 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Add this at the top of your app, right after importing libraries
+st.markdown("""
+<style>
+    /* Super aggressive targeting of file uploader text to make it WHITE */
+    [data-testid="stFileUploader"] div,
+    [data-testid="stFileUploader"] span,
+    [data-testid="stFileUploader"] p,
+    [data-testid="stFileUploader"] svg,
+    .stFileUploader div,
+    .stFileUploader span,
+    .stFileUploader p,
+    div[data-testid="stFileUploadDropzone"] *,
+    div[data-testid="stFileUploadDropzoneContent"] *,
+    div[data-baseweb="file-uploader"] * {
+        color: white !important;
+        fill: white !important;
+    }
+    
+    /* Specific targeting for the icon */
+    [data-testid="stFileUploader"] svg path,
+    .stFileUploader svg path {
+        fill: white !important;
+        stroke: white !important;
+    }
+    
+    /* Target the specific span elements inside the uploader */
+    div[role="button"] span,
+    div[data-testid="stFileUploadDropzoneContent"] div {
+        color: white !important;
+    }
+    
+    /* Extra important rule to override any inline styles */
+    div[data-testid="stFileUploader"] * {
+        color: white !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Keep your other styling for dark slate text, but make sure it doesn't affect the uploader
+st.markdown("""
+<style>
+    /* Make general text dark slate on light backgrounds WITHOUT affecting uploader */
+    .stMarkdown p:not([data-testid="stFileUploader"] *):not(.stFileUploader *), 
+    .stMarkdown li:not([data-testid="stFileUploader"] *):not(.stFileUploader *), 
+    label:not([data-testid="stFileUploader"] *):not(.stFileUploader *),
+    .stSubheader:not([data-testid="stFileUploader"] *):not(.stFileUploader *),
+    .stRadio label:not([data-testid="stFileUploader"] *):not(.stFileUploader *) {
+        color: #2C3E50 !important;
+    }
+    
+    /* Section headers deep blue */
+    h1, h2, h3 {
+        color: #1A3E6C !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Hide default elements and set styling
 st.markdown("""
 <style>
@@ -389,51 +446,40 @@ if show_uploader:
                 if st.session_state.using_free_tier:
                     increment_usage()
                 
-                with st.spinner("Generating AI-enhanced titles..."):
+                with st.spinner("Analyzing presentation and generating enhanced titles..."):
                     # Get rewritten titles using the appropriate API key
                     active_api_key = get_active_api_key()
-                    # Convert titles to the format expected by rewrite_titles_with_context
+                    
+                    # Create a simple list of dictionaries with title and dummy content
+                    # This is a temporary solution until we implement full slide content extraction
                     slides_data = [{"title": title, "content": ""} for title in titles_to_use]
+                    
                     suggested_titles = rewrite_titles_with_context(
-                        slides_data, 
-                        st.session_state.style_option, 
-                        st.session_state.custom_guidance,
+                        slides_data,
+                        style_option,
+                        custom_guidance,
                         active_api_key
                     )
                     
                     # Store in session state to persist across reruns
-                    st.session_state.all_rewritten_options = suggested_titles
+                    st.session_state.suggested_titles = suggested_titles
                     st.session_state.show_selection = True
-                    st.rerun()  # Rerun to update the UI with selection interface
+                    st.rerun()
             
             # Display title selection interface if available
-            if 'show_selection' in st.session_state and st.session_state.show_selection and 'all_rewritten_options' in st.session_state:
-                st.markdown("""
-                <style>
-                .section-header {
-                    color: #1A3E6C !important; /* Deep blue for accessibility */
-                    font-weight: 600;
-                }
-                .slide-header {
-                    color: #2C3E50 !important; /* Dark slate for accessibility */
-                    font-weight: 600; 
-                }
-                </style>
-                """, unsafe_allow_html=True)
-                
-                st.markdown('<h2 class="section-header">Select New Titles</h2>', unsafe_allow_html=True)
+            if 'show_selection' in st.session_state and st.session_state.show_selection and 'suggested_titles' in st.session_state:
+                st.subheader("Select New Titles")
                 selected_titles = []
                 
-                for i, options in enumerate(st.session_state.all_rewritten_options):
+                for i, suggested_title in enumerate(st.session_state.suggested_titles):
                     if i < len(titles_to_use):  # Safety check
-                        st.markdown(f'<div class="slide-header">Slide {i+1}</div>', unsafe_allow_html=True)
-                        st.markdown(f"<em>Original: {titles_to_use[i]}</em>", unsafe_allow_html=True)
+                        st.markdown(f"<div style='margin-bottom: 20px;'><b>Slide {i+1}</b><br><em>Original: {titles_to_use[i]}</em></div>", unsafe_allow_html=True)
                         
-                        # Create radio buttons for selection with original + 2 options
-                        radio_options = ["[Keep Original]"] + options
+                        # Create radio buttons for selection
+                        options = ["[Keep Original]", suggested_title]
                         selection = st.radio(
                             f"Choose title for slide {i+1}:",
-                            radio_options,
+                            options,
                             key=f"slide_{i}"
                         )
                         
