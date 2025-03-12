@@ -10,9 +10,6 @@ from title_rewriter import rewrite_titles_with_key, rewrite_titles_with_context
 from pptx_updater import update_pptx_titles
 import traceback
 
-# Add near the top of your app
-st.write("API Key first 5 chars:", ADMIN_API_KEY[:5] if ADMIN_API_KEY else "No key found")
-
 # Admin API key (your key) - in production, store this in environment variables
 ADMIN_API_KEY = st.secrets.get("OPENAI_API_KEY", "")
 FREE_TIER_LIMIT = 5  # Number of free decks per month per user
@@ -375,9 +372,12 @@ st.markdown("""
     /* Force the button to be taller and match dropzone */
     [data-testid="stFileUploader"] button,
     button.css-1cpxqw2 {
-        min-height: 0 !important;
+        min-height: 100px !important;
         height: auto !important;
-        padding: 0.5rem 1rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 1rem !important;
         margin-right: 10px !important;
         margin-left: 10px !important;
     }
@@ -406,38 +406,6 @@ st.markdown("""
     [data-testid="stFileUploader"] > section > div {
         flex-wrap: nowrap !important;
         width: auto !important;
-    }
-
-    /* Reset button size to be proportional */
-    [data-testid="stFileUploader"] button,
-    button.css-1cpxqw2 {
-        min-height: 0 !important;
-        height: auto !important;
-        padding: 0.5rem 1rem !important;
-        margin-right: 10px !important;
-        margin-left: 10px !important;
-    }
-
-    /* Keep button on left side with proper gap */
-    [data-testid="stFileUploader"] > section {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        gap: 10px !important;
-    }
-
-    [data-testid="stFileUploader"] button {
-        order: -1 !important;
-    }
-
-    /* Make heights match naturally without forcing specific sizes */
-    [data-testid="stFileUploadDropzoneContent"] {
-        height: auto !important;
-    }
-
-    /* Remove red border if still present */
-    [data-testid="stFileUploader"] {
-        border: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -492,15 +460,19 @@ def increment_usage():
 
 # Function to get the appropriate API key
 def get_active_api_key():
-    key = ""
     if st.session_state.using_free_tier and free_tier_available:
         key = ADMIN_API_KEY
+        # Debug
+        with st.expander("Debug - Admin Key"):
+            st.write(f"Using admin key, length: {len(key) if key else 0}")
+            st.write(f"Prefix: {key[:4] + '...' if key and len(key) > 4 else 'None'}")
+        return key
     else:
         key = st.session_state.api_key
-    
-    # Add debug info
-    st.write(f"Using {'admin' if key == ADMIN_API_KEY else 'user'} key, length: {len(key)}")
-    return key
+        # Debug
+        with st.expander("Debug - User Key"):
+            st.write(f"Using user key, length: {len(key) if key else 0}")
+        return key
 
 # Debug section
 try:
