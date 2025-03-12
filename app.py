@@ -134,6 +134,23 @@ st.markdown("""
     .stRadio [data-baseweb="radio"] input:checked + div::before {
         background-color: #1A3E6C !important;
     }
+    
+    /* Only target specific text elements */
+    .stMarkdown p, 
+    .stMarkdown li,
+    label:not([class*="Upload"]),
+    .stSubheader,
+    .stRadio label,
+    h4:not([class]) {
+        color: #2C3E50 !important;
+    }
+    
+    /* Section headers */
+    h1, h2, h3 {
+        color: #1A3E6C !important;
+    }
+    
+    /* DO NOT touch anything related to file uploaders */
 </style>
 """, unsafe_allow_html=True)
 
