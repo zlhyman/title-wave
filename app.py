@@ -205,6 +205,34 @@ st.markdown("""
     [data-testid="stFileUploader"] div[role="button"] * {
         color: white !important;
     }
+
+    /* Fix that white box once and for all by styling properly */
+    div[data-testid="stFileUploadDropzoneContent"] {
+        background-color: transparent !important;
+    }
+
+    /* Make upload box prettier and consistent */
+    [data-testid="stFileUploader"] section div {
+        border: 2px dashed #aaa !important;
+        border-radius: 5px !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    /* Fix text colors for visibility */
+    [data-testid="stFileUploadDropzoneContent"] div {
+        color: #333 !important;
+    }
+
+    /* Make icon visible */
+    [data-testid="stFileUploadDropzoneContent"] svg path {
+        fill: #4682B4 !important;
+    }
+
+    /* Style browse button */
+    [data-testid="stFileUploader"] button {
+        background-color: #4682B4 !important;
+        color: white !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
