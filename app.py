@@ -28,7 +28,10 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
-    .stApp {background-color: #E0D3AF;}
+    .stApp {
+        background: linear-gradient(135deg, #7B91B3 0%, #4E5D6C 100%);
+        background-attachment: fixed;
+    }
     
     /* Add space AFTER the expander */
     div[data-testid="stExpander"] {
