@@ -8,6 +8,7 @@ from pathlib import Path
 from title_extractor import extract_slide_titles
 from title_rewriter import rewrite_titles_with_key, rewrite_titles_with_context
 from pptx_updater import update_pptx_titles
+import traceback
 
 # Admin API key (your key) - in production, store this in environment variables
 ADMIN_API_KEY = st.secrets.get("OPENAI_API_KEY", "")
@@ -125,9 +126,34 @@ def increment_usage():
 # Function to get the appropriate API key
 def get_active_api_key():
     if st.session_state.using_free_tier and free_tier_available:
-        return ADMIN_API_KEY
+        key = ADMIN_API_KEY
+        # Debug
+        with st.expander("Debug - Admin Key"):
+            st.write(f"Using admin key, length: {len(key) if key else 0}")
+            st.write(f"Prefix: {key[:4] + '...' if key and len(key) > 4 else 'None'}")
+        return key
     else:
-        return st.session_state.api_key
+        key = st.session_state.api_key
+        # Debug
+        with st.expander("Debug - User Key"):
+            st.write(f"Using user key, length: {len(key) if key else 0}")
+        return key
+
+# Debug section
+try:
+    api_key_exists = "OPENAI_API_KEY" in st.secrets
+    api_key_value = st.secrets.get("OPENAI_API_KEY", "")
+    api_key_length = len(api_key_value) if api_key_value else 0
+    api_key_prefix = api_key_value[:4] + "..." if api_key_value else "None"
+    
+    # Show debug info in an expander
+    with st.expander("Debug Info (Only visible during testing)"):
+        st.write(f"API Key in secrets: {api_key_exists}")
+        st.write(f"API Key length: {api_key_length}")
+        st.write(f"API Key prefix: {api_key_prefix}")
+except Exception as e:
+    st.error(f"Debug Error: {str(e)}")
+    st.code(traceback.format_exc())
 
 # Custom title with wave emoji
 st.markdown('<div class="custom-title">🌊TitleWave</div>', unsafe_allow_html=True)
@@ -357,4 +383,27 @@ if 'temp_pptx_path' in locals():
     try:
         os.unlink(temp_pptx_path)
     except:
-        pass 
+        pass
+
+# Add this near the bottom of your app, after all the main UI components
+# Small, subtle test button for API debugging
+st.markdown("<hr style='margin-top: 50px; opacity: 0.3;'>", unsafe_allow_html=True)
+with st.expander("🔧 Developer Tools", expanded=False):
+    col1, col2, col3 = st.columns([1, 1, 3])
+    with col1:
+        if st.button("Test API", help="Test OpenAI API connection", key="test_api_btn", use_container_width=False):
+            try:
+                from openai import OpenAI
+                client = OpenAI(api_key=st.secrets.get("OPENAI_API_KEY", ""))
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": "Say hello"}],
+                    max_tokens=10
+                )
+                with col3:
+                    st.success(f"✓ API works! Response: {response.choices[0].message.content}")
+            except Exception as e:
+                with col3:
+                    st.error(f"API Error: {type(e).__name__}")
+                    with st.expander("Details"):
+                        st.code(str(e)) 
