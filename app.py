@@ -150,6 +150,9 @@ st.markdown("""
         color: #1A3E6C !important;
     }
     
+    /* Make general text dark slate on light backgrounds */
+    .stMarkdown p, .stMarkdown li, label:not([class*="Upload"]), .stSubheader, .stRadio label {
+        color: #2C3E50 !important;
     /* DO NOT touch anything related to file uploaders */
 </style>
 """, unsafe_allow_html=True)
