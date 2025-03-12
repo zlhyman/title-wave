@@ -234,21 +234,25 @@ st.markdown("""
         color: white !important;
     }
 
-    /* Make the outer container transparent */
+    /* Make the outer container transparent with black outline */
+    [data-testid="stFileUploader"] {
+        border: 1px solid black !important;
+    }
+
     [data-testid="stFileUploader"] > section {
         background-color: transparent !important;
-        border: none !important;
     }
 
-    /* Reset the inner container to clean styling */
+    /* Fix the inner container with solid light grey border */
     [data-testid="stFileUploadDropzoneContent"] {
         background-color: rgba(255, 255, 255, 0.7) !important;
-        border: none !important;
+        border: 1px solid #dddddd !important;
+        border-style: solid !important;
     }
 
-    /* Remove red border */
-    [data-testid="stFileUploader"] {
-        border: none !important;
+    /* Remove dotted lines specifically */
+    [data-testid="stFileUploadDropzoneContent"] svg {
+        stroke: #444 !important;
     }
 </style>
 """, unsafe_allow_html=True)
