@@ -180,6 +180,31 @@ st.markdown("""
         color: white !important;
         fill: white !important;
     }
+
+    /* Target the inner white box with extreme specificity */
+    div[data-testid="stFileUploadDropzoneContent"] {
+        background-color: #262730 !important;
+    }
+
+    /* Make the text white */
+    div[data-testid="stFileUploadDropzoneContent"] > div {
+        color: white !important;
+    }
+
+    /* Make the icon white */
+    div[data-testid="stFileUploadDropzoneContent"] svg path {
+        fill: white !important;
+        stroke: white !important;
+    }
+
+    /* Also target possible variations */
+    [data-testid="stFileUploader"] div[role="button"] {
+        background-color: #262730 !important;
+    }
+
+    [data-testid="stFileUploader"] div[role="button"] * {
+        color: white !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
