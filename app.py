@@ -167,7 +167,18 @@ st.markdown("""
 
     /* Target ONLY the file uploader inner box background */
     [data-testid="stFileUploadDropzoneContent"] {
-        background-color: white;
+        background-color: #262730 !important;
+        color: white !important;
+    }
+
+    /* Ensure text and icon are visible on dark background */
+    [data-testid="stFileUploadDropzoneContent"] p {
+        color: white !important;
+    }
+
+    [data-testid="stFileUploadDropzoneContent"] svg {
+        color: white !important;
+        fill: white !important;
     }
 </style>
 """, unsafe_allow_html=True)
