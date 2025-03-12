@@ -190,7 +190,7 @@ st.markdown(usage_html, unsafe_allow_html=True)
 # "No API key required" message
 if free_tier_available:
     message_html = """
-    <div style="background-color: rgba(76, 175, 80, 0.1); padding: 15px; border-radius: 5px; margin-top: 0; margin-bottom: 20px; color: #FFF;">
+    <div style="background-color: rgba(76, 175, 80, 0.1); padding: 15px; border-radius: 5px; margin-top: 0; margin-bottom: 20px; color: #00C853;">
         No API key required - just upload your presentation!
     </div>
     """
