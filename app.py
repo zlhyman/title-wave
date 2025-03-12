@@ -448,6 +448,63 @@ st.markdown("""
     div[data-baseweb="card"] span {
         color: white !important;
     }
+
+    /* Specifically target the X button and reset its dimensions */
+    button[aria-label="Close"],
+    button.css-jlzg70,
+    [data-testid="stFileUploader"] [aria-label="Close"],
+    [role="dialog"] button {
+        height: 32px !important;
+        width: 32px !important;
+        min-height: unset !important;
+        max-height: 32px !important;
+        padding: 6px !important;
+        align-self: center !important;
+        border-radius: 4px !important;
+    }
+
+    /* Fix container that might be stretching the button */
+    [role="dialog"],
+    [role="dialog"] > div {
+        height: auto !important;
+        min-height: unset !important;
+        align-items: center !important;
+    }
+
+    /* Make the X icon itself appropriately sized */
+    button[aria-label="Close"] svg {
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+    /* Target text in dark containers - more specific selectors */
+    div[data-testid="stText"] p,
+    div[data-testid="stMarkdown"] p,
+    [style*="rgb(30, 30, 46)"] p,
+    [style*="rgb(30, 30, 46)"] span,
+    [style*="rgb(30, 30, 46)"] div,
+    [style*="rgb(25, 26, 30)"] p,
+    [style*="rgb(25, 26, 30)"] span,
+    [style*="rgb(25, 26, 30)"] div,
+    .element-container div[data-testid="stText"] p {
+        color: white !important;
+    }
+
+    /* Target specifically the slide title display */
+    [data-baseweb="card"],
+    [data-baseweb="card"] div, 
+    [data-baseweb="card"] p, 
+    [data-baseweb="card"] span {
+        color: white !important;
+    }
+
+    /* Force all text in dark containers to be white */
+    div.stMarkdown div[style*="background-color: rgb(30, 30, 46)"] *,
+    div.stMarkdown div[style*="background-color: rgb(25, 26, 30)"] *,
+    div.stContainer div[style*="background-color: rgb(30, 30, 46)"] *,
+    div.stContainer div[style*="background-color: rgb(25, 26, 30)"] * {
+        color: white !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
