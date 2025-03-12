@@ -348,6 +348,26 @@ st.markdown("""
     [data-testid="stFileUploadDropzoneContent"] div {
         color: #333 !important;
     }
+
+    /* Reposition the "Browse files" button */
+    [data-testid="stFileUploader"] > section {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 10px !important;
+    }
+
+    /* Move the button to the left side */
+    [data-testid="stFileUploader"] button {
+        order: -1 !important;
+        margin-left: 10px !important;
+    }
+
+    /* Keep the dropzone content to the right */
+    [data-testid="stFileUploadDropzoneContent"] {
+        flex-grow: 1 !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
