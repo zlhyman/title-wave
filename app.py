@@ -306,6 +306,32 @@ st.markdown("""
     [data-testid="stFileUploadDropzoneContent"] * {
         all: revert !important;
     }
+
+    /* Hide the original border completely by setting its width to 0 */
+    [data-testid="stFileUploadDropzoneContent"] {
+        border-width: 0 !important;
+        outline-width: 0 !important;
+        box-shadow: none !important;
+    }
+
+    /* Create a completely new border using an absolutely positioned pseudo-element */
+    [data-testid="stFileUploadDropzoneContent"]::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid #aaa;
+        border-radius: 5px;
+        pointer-events: none;
+        z-index: 100;
+    }
+
+    /* Change that red outer border to black */
+    [data-testid="stFileUploader"] {
+        border-color: black !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
