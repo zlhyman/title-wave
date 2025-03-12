@@ -253,6 +253,11 @@ st.markdown("""
     [data-testid="stFileUploadDropzoneContent"] svg {
         stroke: black !important;
     }
+
+    /* Minimal change to fix dotted lines */
+    [data-testid="stFileUploadDropzoneContent"] {
+        border: 1px solid black !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
