@@ -56,7 +56,7 @@ st.markdown("""
         font-size: 1.2rem !important;
         margin-top: 0 !important;
         margin-bottom: 2rem !important;
-        color: #555 !important;
+        color: #000000 !important;
         text-align: center !important;
     }
     
@@ -180,7 +180,7 @@ usage_html = f"""
     <div style="color: #31708f; margin-bottom: 10px;">
         Free tier usage: {current_usage}/{FREE_TIER_LIMIT} presentations this month
     </div>
-    <div style="height: 10px; background-color: #f5f5f5; border-radius: 5px; margin: 10px 0;">
+    <div style="height: 10px; background-color: #000000; border-radius: 5px; margin: 10px 0;">
         <div style="height: 100%; width: {usage_percentage}%; background-color: #4CAF50; border-radius: 5px;"></div>
     </div>
 </div>
