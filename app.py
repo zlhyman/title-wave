@@ -741,10 +741,10 @@ if show_uploader:
         
         edited_titles = []
         # Create text inputs for each title
-        for i, title in enumerate(titles):
+        for i, title in enumerate(titles, 1):
             # Use the session state value if it exists, otherwise use the extracted title
-            current_value = st.session_state.edited_titles[i] if i < len(st.session_state.edited_titles) else title
-            edited_title = st.text_input(f"Slide {i+1}", value=current_value, key=f"edit_title_{i}")
+            current_value = st.session_state.edited_titles[i-1] if i <= len(st.session_state.edited_titles) else title
+            edited_title = st.text_input(f"Slide {i}", value=current_value, key=f"edit_title_{i-1}")
             edited_titles.append(edited_title)
         
         # Confirm button
@@ -832,7 +832,7 @@ if show_uploader:
                 for i, options in enumerate(st.session_state.all_rewritten_options):
                     if i < len(titles_to_use):  # Safety check
                         st.markdown(f'<div class="slide-header">Slide {i+1}</div>', unsafe_allow_html=True)
-                        st.markdown(f"<em>Original: {titles_to_use[i]}</em>", unsafe_allow_html=True)
+                        st.markdown(f"""<div style="background-color: #1e1e2e; padding: 10px; border-radius: 5px; color: white !important;"><span style="color: white !important;">{titles_to_use[i]}</span></div>""", unsafe_allow_html=True)
                         
                         # Create radio buttons for selection with original + 2 options
                         radio_options = ["[Keep Original]"] + options
