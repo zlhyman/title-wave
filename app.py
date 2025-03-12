@@ -629,6 +629,31 @@ st.markdown("""
     [data-baseweb="base-button"] {
         color: inherit !important;
     }
+
+    /* Hide the dropzone portion completely */
+    [data-testid="stFileUploadDropzoneContent"] {
+        display: none !important;
+    }
+
+    /* Make the container for the uploader more compact */
+    [data-testid="stFileUploader"] section {
+        display: flex !important;
+        justify-content: center !important;
+        border: none !important;
+        background-color: transparent !important;
+        padding: 0 !important;
+    }
+
+    /* Style the Browse Files button nicely */
+    [data-testid="stFileUploader"] button {
+        margin: 0 auto !important;
+    }
+
+    /* Remove any border or styling from the outer container */
+    [data-testid="stFileUploader"] {
+        border: none !important;
+        background-color: transparent !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -902,7 +927,7 @@ if show_uploader:
                 for i, options in enumerate(st.session_state.all_rewritten_options):
                     if i < len(titles_to_use):  # Safety check
                         st.markdown(f'<div class="slide-header">Slide {i+1}</div>', unsafe_allow_html=True)
-                        st.markdown(f"""<div style="background-color: #1e1e2e; padding: 10px; border-radius: 5px; color: white !important;"><span style="color: white !important;">{titles_to_use[i]}</span></div>""", unsafe_allow_html=True)
+                        st.markdown(f"""<div style="background-color: #f0f0f0; padding: 10px; border-radius: 5px; color: #333333; border: 1px solid #cccccc;">{titles_to_use[i]}</div>""", unsafe_allow_html=True)
                         
                         # Create radio buttons for selection with original + 2 options
                         radio_options = ["[Keep Original]"] + options
