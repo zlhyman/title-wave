@@ -600,6 +600,35 @@ st.markdown("""
     .stMarkdown div[style*="background-color: rgb(25, 26, 30)"] {
         color: white !important;
     }
+
+    /* ONLY target text on light backgrounds */
+    .main .block-container p, 
+    .main .block-container li, 
+    .main .block-container label:not(.stRadio label[data-baseweb="radio"] span),
+    .main .block-container .stMarkdown,
+    .stSubheader,
+    .main .block-container h4:not([class]),
+    .main .block-container div:not([class*="st"]) {
+        color: #2C3E50 !important;
+    }
+    
+    /* Keep section headers deep blue */
+    .main .block-container h1, 
+    .main .block-container h2, 
+    .main .block-container h3 {
+        color: #1A3E6C !important;
+    }
+    
+    /* EXPLICITLY PRESERVE white text in dark areas */
+    .stFileUploader label, 
+    .stFileUploader span,
+    .stFileUploader p,
+    [data-testid="stFileUploader"] span,
+    button,
+    .stButton button,
+    [data-baseweb="base-button"] {
+        color: inherit !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
