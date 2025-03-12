@@ -159,6 +159,11 @@ st.markdown("""
     div[data-testid="stFileUploader"] > section > div {
         background-color: white;
     }
+
+    /* Just target the inner box with minimal CSS */
+    div[data-testid="stFileUploader"] section div div {
+        background-color: white;
+    }
 </style>
 """, unsafe_allow_html=True)
 
