@@ -22,183 +22,37 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Add this at the top of your app, right after importing libraries
+# Replace all previous styling attempts with this focused approach
 st.markdown("""
 <style>
-    /* Super aggressive targeting of file uploader text to make it WHITE */
-    [data-testid="stFileUploader"] div,
-    [data-testid="stFileUploader"] span,
-    [data-testid="stFileUploader"] p,
-    [data-testid="stFileUploader"] svg,
-    .stFileUploader div,
-    .stFileUploader span,
-    .stFileUploader p,
-    div[data-testid="stFileUploadDropzone"] *,
-    div[data-testid="stFileUploadDropzoneContent"] *,
-    div[data-baseweb="file-uploader"] * {
-        color: white !important;
-        fill: white !important;
-    }
-    
-    /* Specific targeting for the icon */
-    [data-testid="stFileUploader"] svg path,
-    .stFileUploader svg path {
-        fill: white !important;
-        stroke: white !important;
-    }
-    
-    /* Target the specific span elements inside the uploader */
-    div[role="button"] span,
-    div[data-testid="stFileUploadDropzoneContent"] div {
+    /* Target the file uploader text with maximum specificity */
+    div[data-testid="stFileUploadDropzoneContent"] > div:first-child {
         color: white !important;
     }
     
-    /* Extra important rule to override any inline styles */
-    div[data-testid="stFileUploader"] * {
+    /* Target the file size limit text */
+    div[data-testid="stFileUploadDropzoneContent"] > div:last-child {
         color: white !important;
     }
-</style>
-""", unsafe_allow_html=True)
-
-# Keep your other styling for dark slate text, but make sure it doesn't affect the uploader
-st.markdown("""
-<style>
-    /* Make general text dark slate on light backgrounds WITHOUT affecting uploader */
-    .stMarkdown p:not([data-testid="stFileUploader"] *):not(.stFileUploader *), 
-    .stMarkdown li:not([data-testid="stFileUploader"] *):not(.stFileUploader *), 
-    label:not([data-testid="stFileUploader"] *):not(.stFileUploader *),
-    .stSubheader:not([data-testid="stFileUploader"] *):not(.stFileUploader *),
-    .stRadio label:not([data-testid="stFileUploader"] *):not(.stFileUploader *) {
-        color: #2C3E50 !important;
+    
+    /* Fix the icon - hide the broken white square and use a custom one */
+    div[data-testid="stFileUploadDropzoneContent"] img,
+    div[data-testid="stFileUploadDropzoneContent"] svg {
+        display: none !important;
     }
     
-    /* Section headers deep blue */
-    h1, h2, h3 {
-        color: #1A3E6C !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Hide default elements and set styling
-st.markdown("""
-<style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    .stApp {background-color: #E0D3AF;}
-    
-    /* Add space AFTER the expander */
-    div[data-testid="stExpander"] {
-        margin-bottom: 20px !important;  /* Adjust this value as needed */
-    }
-            
-    /* Import Poppins font */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    
-    /* Apply Poppins to main title */
-    .custom-title {
-        font-family: 'Poppins', sans-serif !important;
-        font-weight: 700 !important;
-        font-size: 3.5rem !important;
-        margin-bottom: 0.5rem !important;
-        color: #333 !important;
-        text-align: center !important;
-    }
-    
-    /* Subtitle styling */
-    .custom-subtitle {
-        font-size: 1.2rem !important;
-        margin-top: 0 !important;
-        margin-bottom: 2rem !important;
-        color: #555 !important;
-        text-align: center !important;
-    }
-    
-    /* Add space above the file uploader */
-    section[data-testid="stFileUploader"] {
-        margin-top: 40px !important;
-    }
-
-    /* Remove space between info/success messages */
-    .element-container:has(.stProgress) {
-        margin-bottom: -15px !important;
-    }
-    
-    /* Adjust padding on info/success messages */
-    .stAlert {
-        padding-top: 10px !important;
-        padding-bottom: 10px !important;
-    }
-    
-    /* Accessibility-friendly section headers */
-    h1, h2, h3 {
-        color: #1A3E6C !important; /* Deep blue for accessibility */
-    }
-    
-    .stRadio label {
-        color: #2C3E50 !important; /* Dark slate for accessibility */
-    }
-    
-    /* Make the customize section header more accessible */
-    .customize-header {
-        color: #1A3E6C !important;
-        font-weight: 600;
+    /* Add a custom upload icon using emoji as a workaround */
+    div[data-testid="stFileUploadDropzoneContent"] > div:first-child::before {
+        content: "📄 ";
         font-size: 1.5rem;
-        margin-top: 1.5rem;
-        margin-bottom: 1rem;
     }
     
-    /* Make ALL free-floating text dark slate for better legibility */
-    body, p, li, label, .stMarkdown, .stText, .stRadio label, .stCheckbox label, 
-    .stSelectbox label, .stTextInput label, .stTextArea label, .stNumberInput label,
-    .stExpander, .stRadio span, .stCheckbox span, .stSelectbox span {
-        color: #2C3E50 !important;
-    }
-    
-    /* Style for section headers - keep the deep blue */
-    h1, h2, h3, h4, h5, h6 {
-        color: #1A3E6C !important;
-        font-weight: 600 !important;
-    }
-    
-    /* Ensure inline text is also styled */
-    .stMarkdown p, .stMarkdown li, .stMarkdown span {
-        color: #2C3E50 !important;
-    }
-    
-    /* Make sure upload instructions and other hints are legible */
-    .stFileUploader label, .stFileUploader span,
-    .uploadedFileName, .stAlert {
-        color: #2C3E50 !important;
-    }
-    
-    /* Ensure text inputs show dark text */
-    .stTextInput input, .stTextArea textarea, .stNumberInput input {
-        color: #2C3E50 !important;
-    }
-    
-    /* Style specifically for slide title instructions */
-    .stMarkdown em {
-        color: #2C3E50 !important;
-    }
-    
-    /* Small text elements */
-    small, .stMarkdown small {
-        color: #2C3E50 !important;
-    }
-    
-    /* Emphasize current selection in radio buttons */
-    .stRadio [data-baseweb="radio"] input:checked + div::before {
-        background-color: #1A3E6C !important;
-    }
-    
-    /* Only target specific text elements */
-    .stMarkdown p, 
-    .stMarkdown li,
-    label:not([class*="Upload"]),
-    .stSubheader,
-    .stRadio label,
-    h4:not([class]) {
+    /* General text styling for the rest of the app */
+    .main .block-container p:not([data-testid="stFileUploader"] *), 
+    .main .block-container li:not([data-testid="stFileUploader"] *), 
+    label:not([data-testid="stFileUploader"] *),
+    .stSubheader:not([data-testid="stFileUploader"] *),
+    .stRadio label:not([data-testid="stFileUploader"] *) {
         color: #2C3E50 !important;
     }
     
@@ -206,11 +60,6 @@ st.markdown("""
     h1, h2, h3 {
         color: #1A3E6C !important;
     }
-    
-    /* Make general text dark slate on light backgrounds */
-    .stMarkdown p, .stMarkdown li, label:not([class*="Upload"]), .stSubheader, .stRadio label {
-        color: #2C3E50 !important;
-    /* DO NOT touch anything related to file uploaders */
 </style>
 """, unsafe_allow_html=True)
 
