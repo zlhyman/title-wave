@@ -164,6 +164,11 @@ st.markdown("""
     div[data-testid="stFileUploader"] section div div {
         background-color: white;
     }
+
+    /* Target ONLY the file uploader inner box background */
+    [data-testid="stFileUploadDropzoneContent"] {
+        background-color: white;
+    }
 </style>
 """, unsafe_allow_html=True)
 
