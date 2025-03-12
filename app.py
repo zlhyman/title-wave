@@ -6,11 +6,11 @@ import uuid
 import datetime
 from pathlib import Path
 from title_extractor import extract_slide_titles
-from title_rewriter import rewrite_titles_with_key
+from title_rewriter import rewrite_titles_with_key, rewrite_titles_with_context
 from pptx_updater import update_pptx_titles
 
 # Admin API key (your key) - in production, store this in environment variables
-ADMIN_API_KEY = "sk-your-api-key-here" 
+ADMIN_API_KEY = st.secrets.get("OPENAI_API_KEY", "")
 FREE_TIER_LIMIT = 5  # Number of free decks per month per user
 
 # Set up page config - use centered layout for consistency
@@ -81,6 +81,10 @@ if 'using_free_tier' not in st.session_state:
     st.session_state.using_free_tier = True
 if 'user_id' not in st.session_state:
     st.session_state.user_id = str(uuid.uuid4())
+if 'style_option' not in st.session_state:
+    st.session_state.style_option = "concise"  # Default value
+if 'custom_guidance' not in st.session_state:
+    st.session_state.custom_guidance = ""  # Default empty string
 
 # IMPORTANT: Define these functions BEFORE using them
 def get_user_usage():
@@ -245,6 +249,34 @@ if show_uploader:
             titles_to_use = st.session_state.edited_titles
             
             st.subheader("Generate Enhanced Titles")
+            
+            # ADD CUSTOMIZATION UI HERE
+            st.markdown("### Customize Your Title Suggestions")
+            
+            # Style selection
+            style_option = st.radio(
+                "Choose a base style for your enhanced titles:",
+                ["concise", "descriptive", "engaging", "formal", "creative"],
+                format_func=lambda x: {
+                    "concise": "Short & Sweet (3-5 words, action-oriented)",
+                    "descriptive": "Highly Descriptive (clear, explanatory)",
+                    "engaging": "Engaging (questions, provocative statements)",
+                    "formal": "Formal (professional, executive-friendly)",
+                    "creative": "Creative (metaphors, imagery)"
+                }[x]
+            )
+            
+            # Custom guidance text area
+            custom_guidance = st.text_area(
+                "Anything else to keep in mind? (optional)",
+                placeholder="Examples:\n• \"The audience are executives with short attention spans\"\n• \"Focus on emphasizing our competitive advantages\"\n• \"Write titles as if you were a drunken pirate\"\n• \"This is for a technical audience that values precision\"",
+                height=100
+            )
+            
+            # Store in session state
+            st.session_state.style_option = style_option
+            st.session_state.custom_guidance = custom_guidance
+            
             # Generate AI-Enhanced Titles button
             if st.button("Generate AI-Enhanced Titles"):
                 # If using free tier, increment usage counter
@@ -254,25 +286,17 @@ if show_uploader:
                 with st.spinner("Generating AI-enhanced titles..."):
                     # Get rewritten titles using the appropriate API key
                     active_api_key = get_active_api_key()
-                    rewritten_titles_raw = rewrite_titles_with_key(titles_to_use, active_api_key)
-                    
-                    # Parse the raw responses
-                    all_rewritten_options = []
-                    for slide_response in rewritten_titles_raw:
-                        options = slide_response.split("\n")
-                        # Clean up and extract just the title text
-                        cleaned_options = []
-                        for option in options:
-                            if ":" in option and any(prefix in option for prefix in ["1. Concise", "2. Executive", "3. Storytelling"]):
-                                cleaned_options.append(option.split(": ", 1)[1].strip())
-                        if cleaned_options:
-                            all_rewritten_options.append(cleaned_options)
-                        else:
-                            # Fallback if parsing failed
-                            all_rewritten_options.append([f"Enhanced: {titles_to_use[len(all_rewritten_options)]}"])
+                    # Convert titles to the format expected by rewrite_titles_with_context
+                    slides_data = [{"title": title, "content": ""} for title in titles_to_use]
+                    suggested_titles = rewrite_titles_with_context(
+                        slides_data, 
+                        st.session_state.style_option, 
+                        st.session_state.custom_guidance,
+                        active_api_key
+                    )
                     
                     # Store in session state to persist across reruns
-                    st.session_state.all_rewritten_options = all_rewritten_options
+                    st.session_state.all_rewritten_options = suggested_titles
                     st.session_state.show_selection = True
                     st.rerun()  # Rerun to update the UI with selection interface
             
@@ -281,15 +305,12 @@ if show_uploader:
                 st.subheader("Select New Titles")
                 selected_titles = []
                 
-                for i, options in enumerate(st.session_state.all_rewritten_options):
+                for i, suggested_title in enumerate(st.session_state.all_rewritten_options):
                     if i < len(titles_to_use):  # Safety check
-                        st.markdown(f"**Slide {i+1}**")
-                        st.markdown(f"*Original: {titles_to_use[i]}*")
-                        
-                        # Add option to keep original
-                        options = ["[Keep Original]"] + options
+                        st.markdown(f"<div style='margin-bottom: 20px;'><b>Slide {i+1}</b><br><em>Original: {titles_to_use[i]}</em></div>", unsafe_allow_html=True)
                         
                         # Create radio buttons for selection
+                        options = ["[Keep Original]", suggested_title]
                         selection = st.radio(
                             f"Choose title for slide {i+1}:",
                             options,

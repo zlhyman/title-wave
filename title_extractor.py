@@ -22,3 +22,28 @@ def extract_slide_titles(pptx_path):
         titles.append(title)
     
     return titles 
+
+def extract_slide_content(pptx_file):
+    """Extract both titles and content from all slides"""
+    presentation = Presentation(pptx_file)
+    slides_data = []
+    
+    for slide in presentation.slides:
+        slide_dict = {"title": "", "content": ""}
+        
+        # Extract title
+        if slide.shapes.title:
+            slide_dict["title"] = slide.shapes.title.text
+        
+        # Extract all text content from the slide
+        content_text = []
+        for shape in slide.shapes:
+            if hasattr(shape, "text") and shape.text:
+                # Skip the title text to avoid duplication
+                if shape != slide.shapes.title:
+                    content_text.append(shape.text)
+                    
+        slide_dict["content"] = "\n".join(content_text)
+        slides_data.append(slide_dict)
+        
+    return slides_data 
