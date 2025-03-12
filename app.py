@@ -221,11 +221,9 @@ if show_uploader:
             st.session_state.titles_confirmed = False
         
         # Title editing and confirmation section
-        st.markdown("### Check Slide Titles Below<br>看一看下面的幻灯片标题", unsafe_allow_html=True)
+        st.markdown("### Check Slide Titles Below", unsafe_allow_html=True)
         st.markdown("""
-        Please double-check on the extracted slide titles below, and edit them if needed before clicking 'Confirm Titles' to generate AI-enhanced versions.
-        <br><br>
-        请仔细检查下面提取的幻灯片标题，并在必要时对其进行编辑，然后单击\"Confirm Titles\"以生成 AI 增强版本。
+        Please double-check the extracted slide titles below, and edit them if needed before clicking 'Confirm Titles' to generate AI-enhanced versions.
         """, unsafe_allow_html=True)
         
         edited_titles = []
