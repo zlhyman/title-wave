@@ -505,6 +505,60 @@ st.markdown("""
     div.stContainer div[style*="background-color: rgb(25, 26, 30)"] * {
         color: white !important;
     }
+
+    /* NUCLEAR OPTION for text color - guaranteed to work */
+    [style*="background-color: rgb(30, 30, 46)"],
+    [style*="background-color: rgb(25, 26, 30)"],
+    [style*="background-color: #1e1e2e"],
+    [style*="background-color: #19191e"],
+    [style*="background: rgb(30, 30, 46)"],
+    [style*="background: rgb(25, 26, 30)"],
+    [style*="background: #1e1e2e"],
+    [style*="background: #19191e"],
+    div.stMarkdown div p,
+    div[data-testid="stText"] p,
+    div[data-baseweb="card"] p,
+    div[data-baseweb="card"] span {
+        color: white !important;
+        fill: white !important;
+        stroke: white !important;
+    }
+
+    /* Extra specific - target p tags inside dark containers */
+    div[data-testid="stText"] > div > p,
+    .element-container div[data-testid="stText"] p,
+    [data-baseweb="card"] p,
+    [class*="stBox"] p,
+    [class*="stCard"] p,
+    div.stMarkdown p {
+        color: white !important;
+    }
+
+    /* Force override by targeting the exact text elements */
+    div.css-1fcdlhc,
+    div.css-1fcdlhc p,
+    div.css-1fcdlhc span,
+    .css-1fcdlhc *,
+    div[class*="stText"] p {
+        color: white !important;
+    }
+
+    /* Absolutely guaranteed to work by using inline styles */
+    body div.stApp div.stMarkdown p {
+        color: white !important;
+    }
+
+    /* Override any styling on the text elements themselves */
+    p, span, div {
+        color: inherit !important;
+    }
+
+    div[style*="background-color: rgb(30, 30, 46)"] p,
+    div[style*="background-color: rgb(25, 26, 30)"] p,
+    div[style*="background-color: #1e1e2e"] p,
+    div[style*="background-color: #19191e"] p {
+        color: white !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
