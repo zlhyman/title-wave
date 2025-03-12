@@ -372,12 +372,9 @@ st.markdown("""
     /* Force the button to be taller and match dropzone */
     [data-testid="stFileUploader"] button,
     button.css-1cpxqw2 {
-        min-height: 100px !important;
+        min-height: 0 !important;
         height: auto !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 1rem !important;
+        padding: 0.5rem 1rem !important;
         margin-right: 10px !important;
         margin-left: 10px !important;
     }
@@ -406,6 +403,38 @@ st.markdown("""
     [data-testid="stFileUploader"] > section > div {
         flex-wrap: nowrap !important;
         width: auto !important;
+    }
+
+    /* Reset button size to be proportional */
+    [data-testid="stFileUploader"] button,
+    button.css-1cpxqw2 {
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 0.5rem 1rem !important;
+        margin-right: 10px !important;
+        margin-left: 10px !important;
+    }
+
+    /* Keep button on left side with proper gap */
+    [data-testid="stFileUploader"] > section {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    [data-testid="stFileUploader"] button {
+        order: -1 !important;
+    }
+
+    /* Make heights match naturally without forcing specific sizes */
+    [data-testid="stFileUploadDropzoneContent"] {
+        height: auto !important;
+    }
+
+    /* Remove red border if still present */
+    [data-testid="stFileUploader"] {
+        border: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
