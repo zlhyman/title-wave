@@ -150,7 +150,10 @@ st.markdown("""
         color: #1A3E6C !important;
     }
     
-    /* DO NOT touch anything related to file uploaders */
+    /* Target ONLY the file uploader background - nothing else */
+    [data-testid="stFileUploader"] > div:first-child > div:first-child {
+        background-color: white !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
