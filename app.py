@@ -90,6 +90,50 @@ st.markdown("""
         margin-top: 1.5rem;
         margin-bottom: 1rem;
     }
+    
+    /* Make ALL free-floating text dark slate for better legibility */
+    body, p, li, label, .stMarkdown, .stText, .stRadio label, .stCheckbox label, 
+    .stSelectbox label, .stTextInput label, .stTextArea label, .stNumberInput label,
+    .stExpander, .stRadio span, .stCheckbox span, .stSelectbox span {
+        color: #2C3E50 !important;
+    }
+    
+    /* Style for section headers - keep the deep blue */
+    h1, h2, h3, h4, h5, h6 {
+        color: #1A3E6C !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Ensure inline text is also styled */
+    .stMarkdown p, .stMarkdown li, .stMarkdown span {
+        color: #2C3E50 !important;
+    }
+    
+    /* Make sure upload instructions and other hints are legible */
+    .stFileUploader label, .stFileUploader span,
+    .uploadedFileName, .stAlert {
+        color: #2C3E50 !important;
+    }
+    
+    /* Ensure text inputs show dark text */
+    .stTextInput input, .stTextArea textarea, .stNumberInput input {
+        color: #2C3E50 !important;
+    }
+    
+    /* Style specifically for slide title instructions */
+    .stMarkdown em {
+        color: #2C3E50 !important;
+    }
+    
+    /* Small text elements */
+    small, .stMarkdown small {
+        color: #2C3E50 !important;
+    }
+    
+    /* Emphasize current selection in radio buttons */
+    .stRadio [data-baseweb="radio"] input:checked + div::before {
+        background-color: #1A3E6C !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
