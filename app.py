@@ -295,6 +295,17 @@ st.markdown("""
     rect {
         stroke-dasharray: 0 !important;
     }
+
+    /* Reset ONLY the file uploader components to defaults */
+    [data-testid="stFileUploader"],
+    [data-testid="stFileUploadDropzoneContent"] {
+        all: revert !important;
+    }
+
+    /* Ensure we're only targeting the specific uploader elements */
+    [data-testid="stFileUploadDropzoneContent"] * {
+        all: revert !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
