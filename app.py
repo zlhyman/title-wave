@@ -368,6 +368,45 @@ st.markdown("""
     [data-testid="stFileUploadDropzoneContent"] {
         flex-grow: 1 !important;
     }
+
+    /* Force the button to be taller and match dropzone */
+    [data-testid="stFileUploader"] button,
+    button.css-1cpxqw2 {
+        min-height: 100px !important;
+        height: auto !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 1rem !important;
+        margin-right: 10px !important;
+        margin-left: 10px !important;
+    }
+
+    /* Move button to left side */
+    [data-testid="stFileUploader"] > section {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    [data-testid="stFileUploader"] button {
+        order: -1 !important;
+    }
+
+    /* Ensure dropzone has the same height */
+    [data-testid="stFileUploadDropzoneContent"] {
+        min-height: 100px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+    }
+
+    /* Remove flex-wrap that might be breaking the layout */
+    [data-testid="stFileUploader"] > section > div {
+        flex-wrap: nowrap !important;
+        width: auto !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
