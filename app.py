@@ -154,6 +154,11 @@ st.markdown("""
     [data-testid="stFileUploader"] > div:first-child > div:first-child {
         background-color: white !important;
     }
+
+    /* The most minimal, surgical approach - just one line of actual CSS */
+    div[data-testid="stFileUploader"] > section > div {
+        background-color: white;
+    }
 </style>
 """, unsafe_allow_html=True)
 
