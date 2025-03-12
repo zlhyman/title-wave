@@ -233,6 +233,23 @@ st.markdown("""
         background-color: #4682B4 !important;
         color: white !important;
     }
+
+    /* Make the outer container transparent */
+    [data-testid="stFileUploader"] > section {
+        background-color: transparent !important;
+        border: none !important;
+    }
+
+    /* Reset the inner container to clean styling */
+    [data-testid="stFileUploadDropzoneContent"] {
+        background-color: rgba(255, 255, 255, 0.7) !important;
+        border: none !important;
+    }
+
+    /* Remove red border */
+    [data-testid="stFileUploader"] {
+        border: none !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
